@@ -14,15 +14,17 @@ public class CouponService {
   private CouponRepository couponRepository;
 
 
-  @Transactional(isolation = Isolation.READ_COMMITTED)
+  @Transactional
   public void addCoupon(){
-    couponRepository.incrementUsagesLeft(1L);
+//    couponRepository.incrementUsagesLeft(1L);
+    Coupon coupon = couponRepository.findById(1L).get();
+    coupon.setUsagesLeft(coupon.getUsagesLeft() +1);
   }
 
   @Transactional
   public void saveCoupon(){
     Coupon newCoupon = new Coupon(1L, 0);
-    couponRepository.save(newCoupon);
+    couponRepository.saveAndFlush(newCoupon);
   }
 
   public void printResult(){
